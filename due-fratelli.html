@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria Due Fratelli – Barretos, SP</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Libre+Baskerville:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C0160E;
+    --red-dark: #8B0F09;
+    --red-light: #E8251C;
+    --gold: #D4A017;
+    --gold-light: #F0C040;
+    --cream: #FDF6EC;
+    --black: #0E0B08;
+    --charcoal: #1A1512;
+    --warm-gray: #4A4035;
+    --text-light: #F5EEE3;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--text-light);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--charcoal); }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+    background: rgba(14,11,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    transition: background 0.4s;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 0 3px rgba(212,160,23,0.4);
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .logo-text span { display: block; }
+  .logo-text .name { font-size: 1.15rem; color: var(--cream); }
+  .logo-text .sub  { font-size: 0.65rem; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+
+  nav { display: flex; gap: 8px; align-items: center; }
+
+  nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: background 0.25s, color 0.25s;
+  }
+  nav a:hover { background: rgba(192,22,14,0.2); color: var(--gold-light); }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: #fff !important;
+    font-weight: 500;
+    padding: 8px 20px !important;
+    box-shadow: 0 4px 15px rgba(192,22,14,0.4);
+  }
+  .nav-cta:hover { background: var(--red-light) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 70% 50%, rgba(192,22,14,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212,160,23,0.08) 0%, transparent 50%),
+      linear-gradient(135deg, #0E0B08 0%, #1A1512 50%, #0E0B08 100%);
+  }
+
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+    background-size: 30px 30px;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 120px 5% 80px;
+    max-width: 650px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(212,160,23,0.1);
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-badge::before { content: '★'; font-size: 10px; }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 12px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--red-light);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: rgba(245,238,227,0.7);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 30px rgba(192,22,14,0.5);
+    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(192,22,14,0.6); background: var(--red-light); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1.5px solid rgba(212,160,23,0.5);
+    color: var(--gold-light);
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { background: rgba(212,160,23,0.1); border-color: var(--gold); }
+
+  .hero-stats {
+    position: absolute; right: 5%; bottom: 15%;
+    display: flex; flex-direction: column; gap: 24px;
+    z-index: 2;
+    opacity: 0; animation: fadeLeft 0.8s 1s forwards;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px 28px;
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.72rem; color: rgba(245,238,227,0.5); letter-spacing: 1px; text-transform: uppercase; }
+
+  .pizza-float {
+    position: absolute; right: -2%; top: 50%;
+    transform: translateY(-50%);
+    width: min(50vw, 580px);
+    aspect-ratio: 1;
+    z-index: 1;
+    opacity: 0; animation: fadeScale 1.2s 0.5s forwards;
+  }
+
+  .pizza-float svg { width: 100%; height: 100%; }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 100px 5%; }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.15;
+  }
+
+  .section-title em { font-style: italic; color: var(--red-light); }
+
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    border-radius: 2px;
+    margin: 20px 0 40px;
+  }
+
+  /* ── SOBRE NÓS ── */
+  #sobre {
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #sobre::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .sobre-image-wrap {
+    position: relative;
+  }
+
+  .sobre-image {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sobre-img-svg { width: 100%; border-radius: 20px; }
+
+  .sobre-badge-float {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 120px; height: 120px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(192,22,14,0.5);
+    font-family: 'Playfair Display', serif;
+  }
+  .sobre-badge-float strong { font-size: 1.8rem; color: var(--gold-light); display: block; line-height: 1; }
+  .sobre-badge-float span { font-size: 0.62rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; text-transform: uppercase; }
+
+  .sobre-text p {
+    color: rgba(245,238,227,0.7);
+    line-height: 1.85;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .sobre-features {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .feature-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+  }
+  .feature-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .feature-text strong { display: block; font-size: 0.82rem; color: var(--cream); margin-bottom: 2px; }
+  .feature-text span { font-size: 0.75rem; color: rgba(245,238,227,0.5); }
+
+  /* ── CARDÁPIO ── */
+  #cardapio { background: var(--black); }
+
+  .cardapio-header { text-align: center; margin-bottom: 56px; }
+  .cardapio-header .divider { margin: 20px auto 0; }
+
+  .tabs {
+    display: flex; justify-content: center; gap: 8px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 10px 28px;
+    border-radius: 30px;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    background: transparent;
+    color: rgba(245,238,227,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.3px;
+  }
+  .tab:hover { border-color: var(--red); color: var(--text-light); }
+  .tab.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 20px rgba(192,22,14,0.4); }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .menu-card {
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .menu-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+
+  .menu-card-img {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .menu-card-img svg { width: 100%; height: 100%; }
+
+  .menu-card-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .menu-card-body { padding: 20px; }
+  .menu-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 6px; }
+  .menu-card-body p { font-size: 0.8rem; color: rgba(245,238,227,0.55); line-height: 1.6; margin-bottom: 16px; }
+  .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .menu-price { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--gold); font-weight: 700; }
+  .menu-size { font-size: 0.72rem; color: rgba(245,238,227,0.4); }
+  .menu-add {
+    width: 36px; height: 36px;
+    background: var(--red);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .menu-add:hover { background: var(--red-light); transform: scale(1.1); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── PROMOÇÕES ── */
+  #promocoes {
+    background: linear-gradient(135deg, #1A0D0B 0%, #0E0B08 50%, #0D1408 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #promocoes::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(192,22,14,0.08), transparent);
+    pointer-events: none;
+  }
+
+  .promo-header { text-align: center; margin-bottom: 56px; }
+  .promo-header .divider { margin: 20px auto 0; }
+
+  .promo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative; z-index: 1;
+  }
+
+  .promo-card {
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    min-height: 320px;
+    display: flex; align-items: flex-end;
+    transition: transform 0.3s;
+  }
+  .promo-card:hover { transform: scale(1.02); }
+
+  .promo-card-bg {
+    position: absolute; inset: 0;
+  }
+
+  .promo-card-1 .promo-card-bg { background: linear-gradient(135deg, #8B0F09, #C0160E); }
+  .promo-card-2 .promo-card-bg { background: linear-gradient(135deg, #5A3E00, #D4A017); }
+  .promo-card-3 .promo-card-bg { background: linear-gradient(135deg, #0D1A0A, #1A4010); }
+
+  .promo-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+  }
+
+  .promo-emoji {
+    position: absolute; top: 28px; right: 28px;
+    font-size: 3.5rem;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  }
+
+  .promo-content {
+    position: relative; z-index: 1;
+    padding: 28px;
+  }
+
+  .promo-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .promo-content h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px; }
+  .promo-content p { font-size: 0.8rem; color: rgba(255,255,255,0.75); line-height: 1.6; margin-bottom: 16px; }
+  .promo-discount { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: #fff; line-height: 1; }
+  .promo-discount span { font-size: 0.9rem; font-family: 'DM Sans', sans-serif; opacity: 0.8; }
+
+  /* ── AVALIAÇÕES ── */
+  #avaliacoes { background: var(--charcoal); }
+
+  .aval-header { text-align: center; margin-bottom: 56px; }
+  .aval-header .divider { margin: 20px auto 0; }
+
+  .rating-hero {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 40px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 24px;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .rating-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .stars { color: var(--gold); font-size: 1.5rem; margin: 8px 0; letter-spacing: 4px; }
+  .rating-count { font-size: 0.85rem; color: rgba(245,238,227,0.5); }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .review-card {
+    background: var(--black);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 28px;
+    position: relative;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .review-card:hover { transform: translateY(-4px); border-color: rgba(212,160,23,0.2); }
+
+  .review-card::before {
+    content: '"';
+    position: absolute; top: 20px; right: 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; line-height: 1;
+    color: rgba(192,22,14,0.15);
+  }
+
+  .review-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 14px; }
+  .review-text { font-size: 0.88rem; color: rgba(245,238,227,0.75); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
+  .review-author { display: flex; align-items: center; gap: 12px; }
+  .review-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .review-author-info strong { display: block; font-size: 0.85rem; color: var(--cream); }
+  .review-author-info span { font-size: 0.75rem; color: rgba(245,238,227,0.4); }
+
+  /* ── CONTATO ── */
+  #contato { background: var(--black); }
+
+  .contato-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contato-info { }
+
+  .info-block {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .info-block:last-of-type { border: none; }
+  .info-icon {
+    width: 44px; height: 44px;
+    background: rgba(192,22,14,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .info-text strong { display: block; font-size: 0.85rem; color: var(--cream); margin-bottom: 4px; }
+  .info-text span, .info-text a { font-size: 0.82rem; color: rgba(245,238,227,0.55); text-decoration: none; line-height: 1.6; display: block; }
+  .info-text a:hover { color: var(--gold); }
+
+  .whatsapp-btn {
+    display: flex; align-items: center; gap: 12px;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-top: 32px;
+    width: fit-content;
+    box-shadow: 0 8px 25px rgba(37,211,102,0.35);
+    transition: all 0.25s;
+  }
+  .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(37,211,102,0.45); }
+
+  .form-wrap {
+    background: var(--charcoal);
+    border-radius: 24px;
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .form-wrap h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 8px; }
+  .form-wrap p { font-size: 0.82rem; color: rgba(245,238,227,0.5); margin-bottom: 28px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 0.75rem; color: rgba(245,238,227,0.6); margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.25s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--red); }
+  .form-group select option { background: var(--charcoal); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(192,22,14,0.4);
+    transition: all 0.25s;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+  }
+  .submit-btn:hover { background: var(--red-light); transform: translateY(-2px); box-shadow: 0 12px 35px rgba(192,22,14,0.5); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 60px 5% 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand .logo { margin-bottom: 16px; }
+  .footer-brand p { font-size: 0.82rem; color: rgba(245,238,227,0.45); line-height: 1.7; max-width: 240px; }
+
+  .footer-socials { display: flex; gap: 10px; margin-top: 20px; }
+  .social-link {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: rgba(245,238,227,0.6);
+    transition: all 0.25s;
+  }
+  .social-link:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .footer-col h4 {
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { font-size: 0.82rem; color: rgba(245,238,227,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--cream); }
+
+  .footer-hours p, .footer-addr p { font-size: 0.82rem; color: rgba(245,238,227,0.5); line-height: 1.8; }
+  .footer-hours strong, .footer-addr strong { color: var(--cream); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 0.75rem; color: rgba(245,238,227,0.3); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeScale {
+    from { opacity: 0; transform: translateY(-50%) scale(0.9); }
+    to   { opacity: 0.15; transform: translateY(-50%) scale(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(-50%) translateY(0); }
+    50%       { transform: translateY(-50%) translateY(-18px); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .pizza-float { animation: fadeScale 1.2s 0.5s forwards, float 6s 2s ease-in-out infinite; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .sobre-grid { grid-template-columns: 1fr; gap: 48px; }
+    .contato-grid { grid-template-columns: 1fr; gap: 48px; }
+    .promo-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { display: none; }
+    .pizza-float { opacity: 0.1 !important; width: 70vw; }
+  }
+
+  @media (max-width: 640px) {
+    nav { display: none; }
+    nav.open { display: flex; flex-direction: column; position: fixed; inset: 72px 0 0; background: rgba(14,11,8,0.97); padding: 32px 5%; z-index: 999; }
+    nav.open a { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); border-radius: 0; }
+    .hamburger { display: flex; }
+    .hero-content { padding: 110px 5% 60px; }
+    .hero-title { font-size: 2.4rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: 72px 5%; }
+    .sobre-badge-float { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <a href="#hero" class="logo">
+    <div class="logo-icon">🍕</div>
+    <div class="logo-text">
+      <span class="name">Due Fratelli</span>
+      <span class="sub">Pizzaria · Barretos</span>
+    </div>
+  </a>
+  <nav id="nav">
+    <a href="#sobre">Sobre Nós</a>
+    <a href="#cardapio">Cardápio</a>
+    <a href="#promocoes">Promoções</a>
+    <a href="#avaliacoes">Avaliações</a>
+    <a href="#contato" class="nav-cta">Pedir Agora</a>
+  </nav>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">⭐ 4.9 · 81 avaliações no Google</div>
+    <h1 class="hero-title">
+      A pizza que<br>
+      <em>você sonhava</em><br>
+      provar.
+    </h1>
+    <p class="hero-subtitle">
+      Massa artesanal, ingredientes selecionados e o sabor inconfundível de família. Ambiente climatizado, espaço kids e muito amor em cada fatia.
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/551733252162" target="_blank" class="btn-primary">
+        🛵 Pedir pelo WhatsApp
+      </a>
+      <a href="#cardapio" class="btn-secondary">
+        📖 Ver Cardápio
+      </a>
+    </div>
+  </div>
+
+  <!-- decorative big pizza -->
+  <div class="pizza-float">
+    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="250" cy="250" r="240" fill="#C0160E" opacity="0.9"/>
+      <circle cx="250" cy="250" r="215" fill="#D4A017" opacity="0.7"/>
+      <circle cx="250" cy="250" r="200" fill="#C0160E" opacity="0.85"/>
+      <!-- slices -->
+      <line x1="250" y1="50" x2="250" y2="450" stroke="#8B0F09" stroke-width="3" opacity="0.5"/>
+      <line x1="50" y1="250" x2="450" y2="250" stroke="#8B0F09" stroke-width="3" opacity="0.5"/>
+      <line x1="109" y1="109" x2="391" y2="391" stroke="#8B0F09" stroke-width="3" opacity="0.5"/>
+      <line x1="391" y1="109" x2="109" y2="391" stroke="#8B0F09" stroke-width="3" opacity="0.5"/>
+      <!-- toppings circles -->
+      <circle cx="200" cy="200" r="14" fill="#D4A017" opacity="0.8"/>
+      <circle cx="300" cy="180" r="12" fill="#F5EEE3" opacity="0.6"/>
+      <circle cx="170" cy="300" r="16" fill="#D4A017" opacity="0.8"/>
+      <circle cx="320" cy="310" r="13" fill="#F5EEE3" opacity="0.6"/>
+      <circle cx="250" cy="260" r="18" fill="#8B0F09" opacity="0.7"/>
+      <circle cx="210" cy="150" r="10" fill="#F5EEE3" opacity="0.5"/>
+      <circle cx="340" cy="240" r="15" fill="#D4A017" opacity="0.8"/>
+      <circle cx="150" cy="230" r="11" fill="#D4A017" opacity="0.7"/>
+      <circle cx="280" cy="350" r="14" fill="#F5EEE3" opacity="0.6"/>
+      <!-- crust ring -->
+      <circle cx="250" cy="250" r="240" fill="none" stroke="#D4A017" stroke-width="16" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <span class="stat-number">4.9</span>
+      <span class="stat-label">⭐ Avaliação</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">+10</span>
+      <span class="stat-label">Anos de história</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">50+</span>
+      <span class="stat-label">Sabores</span>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NÓS -->
+<section id="sobre">
+  <div class="sobre-grid">
+    <div class="sobre-image-wrap reveal">
+      <div class="sobre-image">
+        <svg class="sobre-img-svg" viewBox="0 0 520 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1A1512"/>
+              <stop offset="100%" stop-color="#2A1A14"/>
+            </linearGradient>
+          </defs>
+          <rect width="520" height="380" fill="url(#bg1)" rx="20"/>
+          <!-- pizza on table illustration -->
+          <ellipse cx="260" cy="240" rx="160" ry="90" fill="#1A0D0B"/>
+          <ellipse cx="260" cy="230" rx="150" ry="85" fill="#C0160E" opacity="0.9"/>
+          <ellipse cx="260" cy="225" rx="135" ry="75" fill="#D4A017" opacity="0.7"/>
+          <ellipse cx="260" cy="220" rx="120" ry="67" fill="#C0160E"/>
+          <!-- slice lines -->
+          <line x1="260" y1="153" x2="260" y2="287" stroke="#8B0F09" stroke-width="2" opacity="0.6"/>
+          <line x1="150" y1="210" x2="370" y2="230" stroke="#8B0F09" stroke-width="2" opacity="0.6"/>
+          <line x1="175" y1="165" x2="345" y2="275" stroke="#8B0F09" stroke-width="2" opacity="0.6"/>
+          <!-- toppings -->
+          <circle cx="230" cy="195" r="9" fill="#F5EEE3" opacity="0.7"/>
+          <circle cx="290" cy="190" r="8" fill="#D4A017"/>
+          <circle cx="250" cy="230" r="11" fill="#8B0F09"/>
+          <circle cx="280" cy="250" r="8" fill="#F5EEE3" opacity="0.7"/>
+          <circle cx="220" cy="245" r="9" fill="#D4A017"/>
+          <circle cx="310" cy="215" r="10" fill="#F5EEE3" opacity="0.7"/>
+          <!-- steam lines -->
+          <path d="M200 140 Q205 125 200 110" stroke="#F5EEE3" stroke-width="2" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <path d="M260 130 Q265 115 260 100" stroke="#F5EEE3" stroke-width="2" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <path d="M320 140 Q325 125 320 110" stroke="#F5EEE3" stroke-width="2" fill="none" opacity="0.3" stroke-linecap="round"/>
+          <!-- text decoration -->
+          <text x="260" y="60" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#D4A017" opacity="0.9" font-weight="bold">Due Fratelli</text>
+          <text x="260" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#D4A017" opacity="0.5" letter-spacing="4">DESDE 2012</text>
+        </svg>
+      </div>
+      <div class="sobre-badge-float">
+        <strong>10+</strong>
+        <span>Anos de tradição</span>
+      </div>
+    </div>
+
+    <div class="sobre-text reveal">
+      <span class="section-label">Nossa história</span>
+      <h2 class="section-title">Feita com amor,<br><em>servida com paixão</em></h2>
+      <div class="divider"></div>
+      <p>
+        A Pizzaria Due Fratelli nasceu do sonho de dois irmãos apaixonados pela culinária italiana. Fundada em Barretos, SP, a pizzaria se tornou um ponto de encontro para famílias que buscam um ambiente aconchegante e uma pizza de verdade.
+      </p>
+      <p>
+        Cada detalhe foi pensado com carinho: a massa artesanal fermentada lentamente, o molho preparado diariamente e os ingredientes cuidadosamente selecionados. Nosso espaço climatizado, com área kids, garante que toda a família aproveite o momento.
+      </p>
+      <div class="sobre-features">
+        <div class="feature-item">
+          <span class="feature-icon">🏠</span>
+          <div class="feature-text">
+            <strong>Ambiente Familiar</strong>
+            <span>Climatizado e acolhedor</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🧒</span>
+          <div class="feature-text">
+            <strong>Espaço Kids</strong>
+            <span>Para crianças brincarem</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🐕</span>
+          <div class="feature-text">
+            <strong>Pet Friendly</strong>
+            <span>Cãezinhos são bem-vindos</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🌿</span>
+          <div class="feature-text">
+            <strong>Ingredientes Frescos</strong>
+            <span>Selecionados diariamente</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDÁPIO -->
+<section id="cardapio">
+  <div class="cardapio-header reveal">
+    <span class="section-label">Nosso cardápio</span>
+    <h2 class="section-title">Sabores que <em>encantam</em></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="tabs reveal">
+    <button class="tab active" onclick="switchTab(this, 'tradicionais')">🍕 Tradicionais</button>
+    <button class="tab" onclick="switchTab(this, 'especiais')">⭐ Especiais</button>
+    <button class="tab" onclick="switchTab(this, 'bebidas')">🥤 Bebidas</button>
+  </div>
+
+  <!-- TRADICIONAIS -->
+  <div class="panel active" id="tradicionais">
+    <div class="menu-grid reveal">
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#C0160E"/>
+            <circle cx="130" cy="82" r="8" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="165" cy="78" r="7" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="148" cy="105" r="9" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="118" cy="108" r="6" fill="#8B0F09"/>
+            <circle cx="175" cy="100" r="8" fill="#8B0F09"/>
+          </svg>
+        </div>
+        <div class="menu-card-body">
+          <h3>Margherita Clássica</h3>
+          <p>Molho de tomate artesanal, mozzarella fresca e manjericão do horto</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 45</span>
+              <span class="menu-size"> · Médio 30cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#C0160E"/>
+            <circle cx="125" cy="80" r="10" fill="#F8C060"/>
+            <circle cx="160" cy="75" r="9" fill="#F8C060"/>
+            <circle cx="175" cy="100" r="8" fill="#F8C060"/>
+            <circle cx="135" cy="108" r="10" fill="#F8C060"/>
+          </svg>
+          <span class="menu-card-badge">Popular</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Calabresa</h3>
+          <p>Calabresa fatiada, cebola roxa, mozzarella e azeitonas pretas</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 48</span>
+              <span class="menu-size"> · Médio 30cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#C0160E"/>
+            <circle cx="128" cy="83" r="9" fill="#4A9B3F" opacity="0.9"/>
+            <circle cx="162" cy="78" r="8" fill="#4A9B3F" opacity="0.9"/>
+            <circle cx="148" cy="108" r="10" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="118" cy="105" r="7" fill="#4A9B3F" opacity="0.9"/>
+            <circle cx="177" cy="102" r="8" fill="#F5EEE3" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="menu-card-body">
+          <h3>Frango com Catupiry</h3>
+          <p>Frango desfiado, catupiry original, milho e cheiro verde</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 52</span>
+              <span class="menu-size"> · Médio 30cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESPECIAIS -->
+  <div class="panel" id="especiais">
+    <div class="menu-grid reveal">
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#C0160E"/>
+            <circle cx="130" cy="82" r="11" fill="#F8D060"/>
+            <circle cx="165" cy="80" r="9" fill="#C0A060"/>
+            <circle cx="148" cy="108" r="10" fill="#F8D060"/>
+            <circle cx="175" cy="100" r="8" fill="#C0A060"/>
+          </svg>
+          <span class="menu-card-badge">Chef</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Quattro Formaggi</h3>
+          <p>Mozzarella, gorgonzola, parmesão e provolone com mel de alecrim</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 65</span>
+              <span class="menu-size"> · Grande 35cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#C0160E"/>
+            <rect x="100" y="72" width="20" height="30" rx="3" fill="#F5EEE3" opacity="0.7"/>
+            <rect x="135" y="68" width="18" height="32" rx="3" fill="#F5EEE3" opacity="0.7"/>
+            <rect x="168" y="74" width="20" height="28" rx="3" fill="#F5EEE3" opacity="0.7"/>
+            <circle cx="148" cy="110" r="10" fill="#D4A017" opacity="0.8"/>
+          </svg>
+          <span class="menu-card-badge">Especial</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Parma com Rúcula</h3>
+          <p>Presunto de parma, rúcula fresca, tomate confit e lascas de parmesão</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 72</span>
+              <span class="menu-size"> · Grande 35cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0D0B"/>
+            <ellipse cx="150" cy="100" rx="100" ry="65" fill="#D4A017" opacity="0.5"/>
+            <ellipse cx="150" cy="95" rx="88" ry="56" fill="#8B0F09"/>
+            <circle cx="130" cy="82" r="9" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="165" cy="80" r="8" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="148" cy="108" r="11" fill="#F5EEE3" opacity="0.8"/>
+            <circle cx="118" cy="105" r="7" fill="#D4A017"/>
+            <circle cx="178" cy="100" r="8" fill="#D4A017"/>
+          </svg>
+        </div>
+        <div class="menu-card-body">
+          <h3>Trufa Negra</h3>
+          <p>Creme de trufa, mozzarella de búfala, cogumelos shiitake e tomilho</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 85</span>
+              <span class="menu-size"> · Grande 35cm</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEBIDAS -->
+  <div class="panel" id="bebidas">
+    <div class="menu-grid reveal">
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#0D1A2A"/>
+            <rect x="125" y="40" width="50" height="110" rx="8" fill="#1A3A5A"/>
+            <rect x="128" y="43" width="44" height="100" rx="6" fill="#2A5A8A" opacity="0.8"/>
+            <rect x="128" y="120" width="44" height="23" rx="0" fill="#1A3A5A"/>
+            <text x="150" y="90" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#D4A017" font-weight="bold">CHOPP</text>
+            <ellipse cx="150" cy="43" rx="22" ry="6" fill="#F5EEE3" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="menu-card-body">
+          <h3>Chopp Artesanal</h3>
+          <p>Chopp gelado, leve e refrescante. Caneca de 500ml</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 18</span>
+              <span class="menu-size"> · 500ml</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#1A0A0A"/>
+            <rect x="120" y="35" width="60" height="120" rx="8" fill="#8B0F09" opacity="0.8"/>
+            <rect x="123" y="38" width="54" height="110" rx="6" fill="#C0160E" opacity="0.7"/>
+            <text x="150" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#F5EEE3" font-weight="bold">VINHO</text>
+            <text x="150" y="100" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#D4A017">TINTO SUAVE</text>
+          </svg>
+          <span class="menu-card-badge">Destaque</span>
+        </div>
+        <div class="menu-card-body">
+          <h3>Vinho Tinto da Casa</h3>
+          <p>Vinho tinto suave, harmonizado com nossa seleção de pizzas</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 55</span>
+              <span class="menu-size"> · 750ml</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="180" fill="#0A1A0A"/>
+            <rect x="118" y="40" width="64" height="115" rx="10" fill="#1A4A1A" opacity="0.8"/>
+            <rect x="121" y="43" width="58" height="105" rx="8" fill="#2A7A2A" opacity="0.7"/>
+            <text x="150" y="85" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#F5EEE3" font-weight="bold">LIMONADA</text>
+            <text x="150" y="97" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#D4A017">SUIÇA</text>
+            <circle cx="150" cy="60" r="12" fill="#D4F070" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="menu-card-body">
+          <h3>Limonada Suíça</h3>
+          <p>Limão siciliano, leite condensado, creme de leite e gelo</p>
+          <div class="menu-card-footer">
+            <div>
+              <span class="menu-price">R$ 16</span>
+              <span class="menu-size"> · 400ml</span>
+            </div>
+            <button class="menu-add">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;" class="reveal">
+    <a href="https://app.cardapioweb.com" target="_blank" class="btn-primary">
+      📖 Ver cardápio completo
+    </a>
+  </div>
+</section>
+
+<!-- PROMOÇÕES -->
+<section id="promocoes">
+  <div class="promo-header reveal">
+    <span class="section-label">Ofertas especiais</span>
+    <h2 class="section-title">Promoções que <em>valem muito</em></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="promo-grid">
+    <div class="promo-card promo-card-1 reveal">
+      <div class="promo-card-bg"></div>
+      <div class="promo-card-overlay"></div>
+      <span class="promo-emoji">🍕</span>
+      <div class="promo-content">
+        <span class="promo-tag">Toda Terça-feira</span>
+        <h3>Pizza em Dobro</h3>
+        <p>Peça uma pizza grande e leve a segunda com 50% de desconto</p>
+        <div class="promo-discount">50% <span>OFF na 2ª pizza</span></div>
+      </div>
+    </div>
+
+    <div class="promo-card promo-card-2 reveal">
+      <div class="promo-card-bg"></div>
+      <div class="promo-card-overlay"></div>
+      <span class="promo-emoji">👨‍👩‍👧‍👦</span>
+      <div class="promo-content">
+        <span class="promo-tag">Final de semana</span>
+        <h3>Combo Família</h3>
+        <p>2 pizzas médias + 1 refri 2L + sobremesa especial da casa</p>
+        <div class="promo-discount">R$119 <span>tudo junto</span></div>
+      </div>
+    </div>
+
+    <div class="promo-card promo-card-3 reveal">
+      <div class="promo-card-bg"></div>
+      <div class="promo-card-overlay"></div>
+      <span class="promo-emoji">🎂</span>
+      <div class="promo-content">
+        <span class="promo-tag">Aniversário</span>
+        <h3>Mês do Aniversário</h3>
+        <p>Comemorando seu aniversário no mês? Ganhe uma pizza média de presente!</p>
+        <div class="promo-discount">🎁 <span>Pizza grátis no seu mês</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVALIAÇÕES -->
+<section id="avaliacoes">
+  <div class="aval-header reveal">
+    <span class="section-label">O que dizem os clientes</span>
+    <h2 class="section-title">Avaliações <em>reais</em></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="rating-hero reveal">
+    <span class="rating-number">4.9</span>
+    <div class="stars">★★★★★</div>
+    <p class="rating-count">Baseado em 81 avaliações no Google</p>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Lugar super agradável, com ambiente climatizado e área kids para as crianças. A pizza estava simplesmente incrível, massa fininha e bem assada do jeito que eu gosto!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #C0160E, #8B0F09); color: #fff;">AS</div>
+        <div class="review-author-info">
+          <strong>Ana Silva</strong>
+          <span>Barretos, SP · 3 semanas atrás</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Espaço kids grande e dando visão aos pais para observar os filhos. Perfeito para levar a família! Os filhos adoraram e a pizza chegou rapidinho e deliciosa."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #D4A017, #8B6800); color: #fff;">MO</div>
+        <div class="review-author-info">
+          <strong>Marcos Oliveira</strong>
+          <span>Barretos, SP · 1 mês atrás</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Melhor pizzaria de Barretos sem dúvida! A pizza de Parma com rúcula é simplesmente divina. Atendimento nota 10, voltarei com certeza!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #2A7A2A, #1A4A1A); color: #fff;">CF</div>
+        <div class="review-author-info">
+          <strong>Camila Ferreira</strong>
+          <span>Barretos, SP · 2 meses atrás</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"Ótima pizzaria, ingredientes de qualidade e ambiente muito bonito. O único ponto a melhorar seria colocar azeite de verdade nas mesas. No mais, excelente!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #3A3ACA, #1A1A8A); color: #fff;">RC</div>
+        <div class="review-author-info">
+          <strong>Roberto Campos</strong>
+          <span>Barretos, SP · 2 meses atrás</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Família reunida num sábado à noite na Due Fratelli, como sempre, uma experiência maravilhosa! Pizza perfeita, atendimento acolhedor. Amamos demais!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #CA3A8A, #8A1A4A); color: #fff;">PS</div>
+        <div class="review-author-info">
+          <strong>Patrícia Santos</strong>
+          <span>Barretos, SP · 3 meses atrás</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Fui comemorar meu aniversário e ganhei uma pizza de presente! Surpreendente. Além disso, a pizza da casa é incrível. Super recomendo!"</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background: linear-gradient(135deg, #CA8A3A, #8A4A1A); color: #fff;">LM</div>
+        <div class="review-author-info">
+          <strong>Lucas Mendes</strong>
+          <span>Barretos, SP · 4 meses atrás</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-grid">
+    <div class="contato-info reveal">
+      <span class="section-label">Fale conosco</span>
+      <h2 class="section-title">Venha nos <em>visitar</em></h2>
+      <div class="divider"></div>
+
+      <div class="info-block">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <strong>Endereço</strong>
+          <span>Av. Centenário da Abolição, 195</span>
+          <span>América, Barretos – SP, 14783-195</span>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">🕐</div>
+        <div class="info-text">
+          <strong>Horário de Funcionamento</strong>
+          <span>Terça a Domingo: a partir das 19h</span>
+          <span>Segunda-feira: Fechado</span>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <strong>Telefone</strong>
+          <a href="tel:+551733252162">(17) 3325-2162</a>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-icon">🌐</div>
+        <div class="info-text">
+          <strong>Reservas e Pedidos</strong>
+          <a href="https://wa.me/551733252162" target="_blank">WhatsApp para reservas</a>
+          <a href="https://app.cardapioweb.com" target="_blank">Cardápio online</a>
+        </div>
+      </div>
+
+      <a href="https://wa.me/551733252162?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido." target="_blank" class="whatsapp-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chamar no WhatsApp
+      </a>
+    </div>
+
+    <div class="form-wrap reveal">
+      <h3>Envie uma mensagem</h3>
+      <p>Dúvidas, sugestões ou reservas? Fale com a gente!</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" placeholder="Seu nome completo">
+        </div>
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="tel" placeholder="(17) 9 0000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Assunto</label>
+        <select>
+          <option>Reserva de mesa</option>
+          <option>Pedido delivery</option>
+          <option>Eventos e grupos</option>
+          <option>Sugestão / Reclamação</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea placeholder="Escreva sua mensagem aqui..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="handleSubmit(this)">Enviar Mensagem ✉️</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="logo">
+        <div class="logo-icon">🍕</div>
+        <div class="logo-text">
+          <span class="name">Due Fratelli</span>
+          <span class="sub">Pizzaria · Barretos</span>
+        </div>
+      </a>
+      <p>Feita com amor e ingredientes selecionados, a Due Fratelli é o encontro da família perfeito em Barretos.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link" title="Instagram">📷</a>
+        <a href="#" class="social-link" title="Facebook">👍</a>
+        <a href="https://wa.me/551733252162" target="_blank" class="social-link" title="WhatsApp">💬</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#sobre">Sobre Nós</a></li>
+        <li><a href="#cardapio">Cardápio</a></li>
+        <li><a href="#promocoes">Promoções</a></li>
+        <li><a href="#avaliacoes">Avaliações</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col footer-hours">
+      <h4>Horários</h4>
+      <p>
+        <strong>Terça – Sexta</strong><br>
+        A partir das 19h<br><br>
+        <strong>Sábado e Domingo</strong><br>
+        A partir das 19h<br><br>
+        <strong>Segunda-feira</strong><br>
+        Fechado
+      </p>
+    </div>
+
+    <div class="footer-col footer-addr">
+      <h4>Endereço</h4>
+      <p>
+        <strong>Av. Centenário da Abolição, 195</strong><br>
+        América, Barretos – SP<br>
+        CEP: 14783-195<br><br>
+        <strong>Telefone</strong><br>
+        <a href="tel:+551733252162" style="color: rgba(245,238,227,0.5); text-decoration:none;">(17) 3325-2162</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Pizzaria Due Fratelli. Todos os direitos reservados.</p>
+    <p style="color: var(--gold); opacity: 0.5;">🍕 Feito com amor em Barretos, SP</p>
+  </div>
+</footer>
+
+<script>
+  // Toggle mobile menu
+  function toggleMenu() {
+    const nav = document.getElementById('nav');
+    nav.classList.toggle('open');
+  }
+
+  // Tab switching
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Header scroll effect
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.style.background = window.scrollY > 60
+      ? 'rgba(14,11,8,0.98)'
+      : 'rgba(14,11,8,0.92)';
+  });
+
+  // Form submit
+  function handleSubmit(btn) {
+    btn.textContent = '✅ Mensagem enviada!';
+    btn.style.background = '#25D366';
+    setTimeout(() => {
+      btn.textContent = 'Enviar Mensagem ✉️';
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Menu add button
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('menu-add')) {
+      e.target.textContent = '✓';
+      e.target.style.background = '#25D366';
+      setTimeout(() => {
+        e.target.textContent = '+';
+        e.target.style.background = '';
+      }, 1500);
+    }
+  });
+</script>
+</body>
+</html>
